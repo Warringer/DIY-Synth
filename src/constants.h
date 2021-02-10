@@ -18,6 +18,7 @@
 #define MENU_ITEM_LENGTH 16
 #define MENU_DISPLAY_SIZE 4
 
+// Convenience function for array size
 #define ARRAY_SIZE(x) ((unsigned int) (sizeof(x) / sizeof(x[0])))
 
 #endif

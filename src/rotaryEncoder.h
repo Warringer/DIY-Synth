@@ -9,110 +9,78 @@
 
 namespace RotaryEncoder {
 
-    //! encoderState
-    /*! Enabled the user of Encoder States for the last action of the Encoder */
+    /**
+     * @brief enum for States used by RotaryEncoder Class
+     *
+     */
     enum encoderState {
         NIL,        /*!< No last action */
         UP,         /*!< Encoder incremented up */
         DOWN,       /*!< Encoder incremented down */
         PRESS };    /*!< Encoder Butten was pressed */
 
-    //! A wrapper class to deal with a rotary Encoder with button
-    /*!
-      Wraps up the Teensy libraries for rotary encoders and debounced buttons
-    */
+    /**
+     * @brief Wrapper Class for Teensy Encoder and Bounce objects to operate a Rotary Encoder with Push Button
+     *
+     */
     class RotaryEncoder {
         private:
-            int8_t position;        //! Position of the Encoder
-            int16_t oldPos;         //! old Position of the Encoder
-            boolean changed;        //! did anything change in the Encoder?
-            boolean pressed;        //! has the Encoder Button be pressed?
-            encoderState status;    //! Status of the Encoder since last use
+            int8_t position;
+            int16_t oldPos;
+            boolean changed;
+            boolean pressed;
+            encoderState status;
 
-            Encoder *encoder;       //! Encoder Object to use
-            Bounce *button;         //! Bounce Object to debounce the Encoder Button
+            Encoder *encoder;
+            Bounce *button;
 
         public:
-            //! Empty Constructor
-            /*!
-                Just the basic Constructor
+            /**
+             * @brief Construct a new Rotary Encoder object
+             *
              */
             RotaryEncoder();
 
-            //! Constructor with prepared Encoder object and Bounce debouncing object for button
-            /*!
-              \param encoder Teensy Encoder object
-              \param button  Teensy Bounce object
+            /**
+             * @brief Construct a new Rotary Encoder object by taking existing objects
+             *
+             * @param encoder   Teensy Encoder object for Rotary Encoder
+             * @param button    Teensy Bounce object to debounce Encoder Button
              */
             RotaryEncoder(Encoder *encoder, Bounce *button);
-
-            //! Constructor that autogenerates Encoder and Bounce Objects
-            /*!
-              \param encA   Encoder Pin A
-              \param encB   Encoder Pin B
-              \param but    Encoder Button Pin
-            */
+            /**
+             * @brief Construct a new Rotary Encoder object, creating new objects for Endocere and Bounce
+             *        by taking the Pins for either Object
+             *
+             * @param encA      Pin A for Encoder direction
+             * @param encB      Pin B for Encoder direction
+             * @param but       Pin for Bounce to debounce Encoder Button
+             */
             RotaryEncoder(uint8_t encA, uint8_t encB, uint8_t but);
 
-            //! Setter for Encoder Position
-            /*!
-              \param pos    Encoder Position
-            */
-            void setPosition(uint8_t pos) { position = pos; };
-
-            //! Getter for Encoder Position
-            /*!
-              \return       Encoder Position
-            */
-            uint8_t getPosition() { return position; };
-
-            //! Setter for Encoder object
-            /*!
-              \param enc    Teensy Encoder object
-            */
-            void setEncoder(Encoder *enc) { encoder = enc; };
-            //! Setter for Bounce object
-            /*!
-              \param but    Teensy Bounce Object
-            */
-            void setButton(Bounce *but) { button = but; };
-
-            //! Getter for Status of the Encoder
-            /*!
-                has the encoder changed since last time?
-              \return       boolean status of the encoder
-            */
-            boolean isChanged() { return changed; };
-            //! Sets Changed Status to true
-            void setChanged() { changed = true;};
-            //! resets changed Status to false
-            void resetChanged() { changed = false; };
-
-            //! Getter for Status of the Button
-            /*! has the Encoder Button be pressed?
-              \return       boolean status of the button
-            */
-            boolean isPressed() { return pressed; };
-            //! Sets the button to true
-            void setPressed() { pressed = true; };
-            //! Resets the button to false
-            void resetPressed() { pressed = false; };
-
-            //! Getter for status of the Encoder as a whole
-            /*!
-              \return       returns the Status of the Encoder as encoderStatus enum
-            */
+            /**
+             * @brief Get the Status of the object
+             *
+             * @return encoderState   Returns enum for the last Status
+             */
             encoderState getStatus() { return status; };
-            //! Resets the status of the Encoder
+            /**
+             * @brief Resets the Status message from the Object
+             *
+             */
             void resetStatus() { status = NIL; };
 
-            //! Resets the entire Encoder object
-            /*!
-                Mainly used in the Constructors
-            */
+            /**
+             * @brief Resets all private variables of the object
+             *
+             */
             void resetAll();
 
-            //! Runs an update of the Encoder to see if anything has changed
+            /**
+             * @brief Runs an update of the object, dealing with any changes of the Encoder
+             *        and the Bound objects, saving it to the Object state.
+             *
+             */
             void update();
     };
 };

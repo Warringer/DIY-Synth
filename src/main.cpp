@@ -48,7 +48,7 @@ void setup() {
   aSin.setFreq(freq); // set the frequency
 }
 
-uint16_t help = 0;
+uint16_t help = 1;
 char *testList[] = { "Alpha", "Beta", "Gamma", "Delta", "Epsilon", "Omega", "Quaddro" };
 
 void updateControl(){
@@ -56,7 +56,6 @@ void updateControl(){
   RotaryEncoder::encoderState state = encoder.getStatus();
   int t = display.userSelectionList("Test", &help, testList, 7, state);
   if (t > 0) {
-    help++;
   }
   display.update();
   encoder.resetStatus();

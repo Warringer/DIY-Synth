@@ -118,7 +118,7 @@ namespace Display {
         return 0;
     }
 
-   uint8_t Display::userInputValue(const char* title, const char* pre, uint16_t *value, uint16_t low, uint16_t high, uint8_t step, const char* post, RotaryEncoder::encoderState state) {
+    uint8_t Display::userInputValue(const char* title, const char* pre, uint16_t *value, uint16_t low, uint16_t high, uint8_t step, const char* post, RotaryEncoder::encoderState state) {
         switch (state)
         {
         case RotaryEncoder::DOWN:
