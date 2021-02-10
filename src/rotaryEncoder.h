@@ -9,12 +9,12 @@
 
 namespace RotaryEncoder {
 
-    //! endocerState
+    //! encoderState
     /*! Enabled the user of Encoder States for the last action of the Encoder */
     enum encoderState {
         NIL,        /*!< No last action */
         UP,         /*!< Encoder incremented up */
-        DOWN,       /*!< Encoder incemented down */
+        DOWN,       /*!< Encoder incremented down */
         PRESS };    /*!< Encoder Butten was pressed */
 
     //! A wrapper class to deal with a rotary Encoder with button
@@ -39,7 +39,7 @@ namespace RotaryEncoder {
              */
             RotaryEncoder();
 
-            //! Constructor with prepared Encoder object and Bounce debouncer object for button
+            //! Constructor with prepared Encoder object and Bounce debouncing object for button
             /*!
               \param encoder Teensy Encoder object
               \param button  Teensy Bounce object

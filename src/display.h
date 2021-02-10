@@ -25,6 +25,7 @@ namespace Display {
             u8g2_uint_t fontHeight;     //! width of the used font in pixel
             uint16_t selected;          //! helper variable for selection of options in user methods
             boolean userDone;           //! helper variable for selection of options in user methods
+            uint8_t selectionListSize;  //! helper for selection lists
 
             //! helper method to center text within a given area of the display
             /*!
@@ -34,6 +35,12 @@ namespace Display {
                 \return         x position for the text to center it
             */
             uint8_t centerPos(const char* text, u8g2_uint_t width) { return (width - (strlen(text) * u8g2.getMaxCharWidth())) >> 1; };
+
+            //! helper methos to make a title, clear the display buffer and set the draw color to '1'
+            /*!
+                \param title   text of the title
+            */
+            void makeTitle(const char* text);
 
         public:
             //! Constructor
@@ -89,7 +96,7 @@ namespace Display {
                 Used in a 'non blocking' design, so that other things can be done by the controller
                 \param title        Title of the Dialog
                 \param pre          Description of the Value
-                \param value        A pointer to the value to be chanced 
+                \param value        A pointer to the value to be chanced
                 \param low          Lowest possible value
                 \param high         Highest possible value
                 \param post         Text to be printed after the value, e.g. a SI unit
@@ -106,7 +113,7 @@ namespace Display {
                 Used in a 'non blocking' design, so that other things can be done by the controller
                 \param title        Title of the Dialog
                 \param pre          Description of the Value
-                \param value        A pointer to the value to be chanced 
+                \param value        A pointer to the value to be chanced
                 \param low          Lowest possible value
                 \param high         Highest possible value
                 \param step         value of the steps the value is to be changed, e.g. 10 steps
@@ -115,6 +122,21 @@ namespace Display {
                 \return             returns 1 when the button was clicked and the value accepted, 0 when the value was not accepted yet
             */
             uint8_t userInputValue(const char* title, const char* pre, uint16_t *value, uint16_t low, uint16_t high, uint8_t step, const char* post, RotaryEncoder::encoderState state);
+
+            //! displays a list of scrollable and selectable items.
+            /*!
+                Draws a scrollsable List of items, where any item can be selected
+                Uses the input from a Rotary Encoder, through the RotaryEncoder::encoderState enum to increase and decrease the value.
+                Click on the Encoder returns the result
+                Used in a 'non blocking' design, so that other things can be done by the controller
+                \param title        Title of the Dialog
+                \param selectPos    A pointer to the Value to be selected, value updated when button is pressed
+                \param list         A list of strings displayed on the List
+                \param listSize     Size of the list
+                \param state        state of the rotary encoder
+                \return             return 1 when the button is clicked and the list item accepted, 0 when no item has been selected
+            */
+            uint8_t userSelectionList(const char* title, uint16_t *selectPos, const char *list[], uint8_t listSize, RotaryEncoder::encoderState state);
 
             //! Updates the display when there is something to be refreshed
             void update();

@@ -9,7 +9,7 @@ namespace Display {
 
     Display::Display() {
         refresh = false;
-        u8g2.setFont(u8g2_font_7x13B_mf);
+        u8g2.setFont(u8g2_font_t0_12b_te);
         displayHeight = u8g2.getDisplayHeight();
         displayWidth = u8g2.getDisplayWidth();
         fontHeight = u8g2.getMaxCharHeight();
@@ -31,7 +31,14 @@ namespace Display {
     }
 
     void Display::drawTitle(const char* title) {
+        titleHeight = fontHeight + 2;
         drawTextBox(0, 0, displayWidth, title, true);
+    }
+
+    void Display::makeTitle(const char* title) {
+        u8g2.clearBuffer();
+        drawTitle(title);
+        u8g2.setDrawColor(1);
     }
 
     uint8_t Display::userMessage(const char*title, const char* line1, const char* line2, RotaryEncoder::encoderState state) {
@@ -58,9 +65,7 @@ namespace Display {
                 refresh = true;
                 userDone = false;
             }
-            u8g2.clearBuffer();
-            drawTitle(title);
-            u8g2.setDrawColor(1);
+            makeTitle(title);
             uint8_t fontHeight = u8g2.getMaxCharHeight() + 2;
             u8g2.drawStr(centerPos(line1, displayWidth), 2 * fontHeight - 2, line1);
             u8g2.drawStr(centerPos(line2, displayWidth), 3 * fontHeight - 2, line2);
@@ -100,9 +105,7 @@ namespace Display {
                 refresh = true;
                 userDone = false;
             }
-            u8g2.clearBuffer();
-            drawTitle(title);
-            u8g2.setDrawColor(1);
+            makeTitle(title);
             uint8_t fontHeight = u8g2.getMaxCharHeight() + 2;
             u8g2.drawStr(centerPos(pre, displayWidth), 2 * fontHeight - 2, pre);
             String val = String(selected) + " ";
@@ -158,9 +161,7 @@ namespace Display {
                 refresh = true;
                 userDone = false;
             }
-            u8g2.clearBuffer();
-            drawTitle(title);
-            u8g2.setDrawColor(1);
+            makeTitle(title);
             uint8_t fontHeight = u8g2.getMaxCharHeight() + 2;
             u8g2.drawStr(centerPos(pre, displayWidth), 2 * fontHeight - 2, pre);
             String val = String(selected) + " ";
@@ -170,6 +171,71 @@ namespace Display {
             uint8_t posPost = centerPos(str, displayWidth) + fontWidth * val.length() - (fontWidth >> 1);
             u8g2.drawStr(posPost, 3 * fontHeight, post);
         }
+        return 0;
+    }
+
+    uint8_t Display::userSelectionList(const char* title, uint16_t *selectPos, const char *list[], uint8_t listSize, RotaryEncoder::encoderState state) {
+        switch (state)
+        {
+        case RotaryEncoder::DOWN:
+            if (selected == 0) {
+                selected = listSize;
+            } else {
+                selected--;
+            }
+            setRefresh();
+            break;
+        case RotaryEncoder::UP:
+            if (selected >= listSize) {
+                selected = 0;
+            } else {
+                selected++;
+            }
+            setRefresh();
+            break;
+        case RotaryEncoder::PRESS:
+            *selectPos = selected;
+            selected = 0;
+            userDone = true;
+            return 1;
+            break;
+        default:
+            break;
+        }
+        if (isRefreshed() or userDone) {
+            if (userDone) {
+                selected = *selectPos;
+                if (selected > listSize) {
+                    selected = listSize;
+                }
+                refresh = true;
+                userDone = false;
+                selectionListSize = 4; //(displayHeight - titleHeight) / fontHeight;
+            }
+            makeTitle(title);
+        }
+        uint8_t listOffset = 0;
+        if (listSize > selectionListSize) {
+            if (selected > selectionListSize) {
+                listOffset = selected - selectionListSize;
+            }
+        }
+        if (selected == 0) {
+            u8g2.setDrawColor(0);
+            u8g2.drawStr(1, fontHeight - 1, ">");
+            u8g2.setDrawColor(1);
+        }
+        for (uint8_t i = 1; i <= selectionListSize; i++) {
+            int yOffset = titleHeight + fontHeight * i;
+            if ((i + listOffset) == selected) {
+                u8g2.drawStr(1, yOffset, ">");
+            }
+            u8g2.drawStr(1 + fontWidth, yOffset, list[i + listOffset - 1]);
+        }
+        u8g2.setCursor(100, 25);
+        u8g2.print(listSize);
+        u8g2.setCursor(100, 35);
+        u8g2.print(selectionListSize);
         return 0;
     }
 
