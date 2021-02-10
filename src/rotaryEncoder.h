@@ -17,6 +17,10 @@ namespace RotaryEncoder {
         DOWN,       /*!< Encoder incemented down */
         PRESS };    /*!< Encoder Butten was pressed */
 
+    //! A wrapper class to deal with a rotary Encoder with button
+    /*!
+      Wraps up the Teensy libraries for rotary encoders and debounced buttons
+    */
     class RotaryEncoder {
         private:
             int8_t position;        //! Position of the Encoder
