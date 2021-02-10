@@ -18,7 +18,8 @@ namespace Display {
             u8g2_uint_t displayHeight;
             u8g2_uint_t fontWidth;
             u8g2_uint_t fontHeight;
-            uint8_t selected;
+            uint16_t selected;
+            boolean userDone;
 
             RotaryEncoder::RotaryEncoder *encoder;
 
@@ -37,7 +38,10 @@ namespace Display {
 
             void drawTitle(const char* title);
 
-            int userMessage(const char*title, const char* line1, const char* line2, RotaryEncoder::encoderState state);
+            uint8_t userMessage(const char*title, const char* line1, const char* line2, RotaryEncoder::encoderState state);
+
+            uint8_t userInputValue(const char* title, const char* pre, uint16_t *value, uint16_t low, uint16_t high, const char* post, RotaryEncoder::encoderState state);
+            uint8_t userInputValue(const char* title, const char* pre, uint16_t *value, uint16_t low, uint16_t high, uint8_t step, const char* post, RotaryEncoder::encoderState state);
 
             void update();
 

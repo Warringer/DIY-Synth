@@ -48,7 +48,7 @@ void setup() {
   aSin.setFreq(freq); // set the frequency
 }
 
-uint8_t help = 1;
+uint16_t help = 1;
 
 void updateControl(){
   encoder.update();
@@ -62,13 +62,14 @@ void updateControl(){
     default:
       break;
   }
-  int t = display.userMessage("Test", "Line 1", "Line 2", state);
+  uint16_t f = (uint16_t) freq;
+  int t = display.userInputValue("Test", "Vcc =", &f, 200, 1500, 20, "V", state);
   if (t > 0) {
-    digitalToggle(LED_BUILTIN);
+    freq = (int) f;
+    aSin.setFreq(freq);
   }
   display.update();
   encoder.resetMovement();
-  aSin.setFreq(freq);
   // put changing controls in here
 }
 
