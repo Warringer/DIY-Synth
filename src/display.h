@@ -37,7 +37,7 @@ namespace Display {
 
             void drawTitle(const char* title);
 
-            int drawMessage(const char*title, const char* line1, const char* line2, RotaryEncoder::encoderState state);
+            int userMessage(const char*title, const char* line1, const char* line2, RotaryEncoder::encoderState state);
 
             void update();
 

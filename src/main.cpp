@@ -62,7 +62,7 @@ void updateControl(){
     default:
       break;
   }
-  int t = display.drawMessage("Test", "Line 1", "Line 2", state);
+  int t = display.userMessage("Test", "Line 1", "Line 2", state);
   if (t > 0) {
     digitalToggle(LED_BUILTIN);
   }

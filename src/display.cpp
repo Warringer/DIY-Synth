@@ -31,7 +31,7 @@ namespace Display {
         drawTextBox(0, 0, displayWidth, title, true);
     }
 
-    int Display::drawMessage(const char*title, const char* line1, const char* line2, RotaryEncoder::encoderState state) {
+    int Display::userMessage(const char*title, const char* line1, const char* line2, RotaryEncoder::encoderState state) {
         switch (state) {
             case RotaryEncoder::DOWN:
             case RotaryEncoder::UP:
