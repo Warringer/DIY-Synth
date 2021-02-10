@@ -35,7 +35,7 @@ namespace RotaryEncoder {
         move = NIL;
         if (button->changed()) {
             pressed = button->read();
-            move = PRESS;
+            if (pressed) { move = PRESS; }
         }
         if (oldPos - pos > ENCODER_COUNT) {
             move = UP;

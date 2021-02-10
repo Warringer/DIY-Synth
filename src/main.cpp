@@ -36,30 +36,37 @@ int freq = 880;
 
 #include "rotaryEncoder.h"
 #include "constants.h"
+#include "display.h"
 
 RotaryEncoder::RotaryEncoder encoder(ENCODER_PIN_A, ENCODER_PIN_B, ENCODER_BUTTON);
+Display::Display display;
 
-void setup(){
+void setup() {
+  Display::u8g2.begin();
+  pinMode(LED_BUILTIN, OUTPUT);
   startMozzi(CONTROL_RATE); // :)
   aSin.setFreq(freq); // set the frequency
 }
 
+uint8_t help = 1;
 
 void updateControl(){
   encoder.update();
-  switch (encoder.getMovement()) {
+  RotaryEncoder::encoderState state = encoder.getMovement();
+  switch (state) {
     case RotaryEncoder::DOWN:
-      freq -= 10;
-      break;
     case RotaryEncoder::UP:
-      freq += 10;
       break;
     case RotaryEncoder::PRESS:
-      freq = 880;
       break;
     default:
       break;
   }
+  int t = display.drawMessage("Test", "Line 1", "Line 2", state);
+  if (t > 0) {
+    digitalToggle(LED_BUILTIN);
+  }
+  display.update();
   encoder.resetMovement();
   aSin.setFreq(freq);
   // put changing controls in here
