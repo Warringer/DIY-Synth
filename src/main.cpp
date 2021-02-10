@@ -63,7 +63,7 @@ void updateControl(){
       break;
   }
   uint16_t f = (uint16_t) freq;
-  int t = display.userInputValue("Test", "Vcc =", &f, 200, 1500, 20, "V", state);
+  int t = display.userInputValue("Test", "Frequency =", &f, 200, 1500, 20, "Hz", state);
   if (t > 0) {
     freq = (int) f;
     aSin.setFreq(freq);

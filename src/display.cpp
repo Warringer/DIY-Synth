@@ -105,10 +105,12 @@ namespace Display {
             u8g2.setDrawColor(1);
             uint8_t fontHeight = u8g2.getMaxCharHeight() + 2;
             u8g2.drawStr(centerPos(pre, displayWidth), 2 * fontHeight - 2, pre);
-            String val = String(selected) + " " + post;
+            String val = String(selected) + " ";
             char str[val.length()];
             val.toCharArray(str, val.length());
             u8g2.drawStr(centerPos(str, displayWidth), 3 * fontHeight, str);
+            uint8_t posPost = centerPos(str, displayWidth) + fontWidth * val.length() - (fontWidth >> 1);
+            u8g2.drawStr(posPost, 3 * fontHeight, post);
         }
         return 0;
     }
@@ -119,6 +121,9 @@ namespace Display {
         case RotaryEncoder::DOWN:
             if (selected > step) {
                 selected -= step;
+                if (selected < low) {
+                    selected = low;
+                }
             } else {
                 selected = 0;
             }
@@ -158,10 +163,12 @@ namespace Display {
             u8g2.setDrawColor(1);
             uint8_t fontHeight = u8g2.getMaxCharHeight() + 2;
             u8g2.drawStr(centerPos(pre, displayWidth), 2 * fontHeight - 2, pre);
-            String val = String(selected) + " " + post;
+            String val = String(selected) + " ";
             char str[val.length()];
             val.toCharArray(str, val.length());
             u8g2.drawStr(centerPos(str, displayWidth), 3 * fontHeight, str);
+            uint8_t posPost = centerPos(str, displayWidth) + fontWidth * val.length() - (fontWidth >> 1);
+            u8g2.drawStr(posPost, 3 * fontHeight, post);
         }
         return 0;
     }
