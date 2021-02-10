@@ -52,16 +52,7 @@ uint16_t help = 1;
 
 void updateControl(){
   encoder.update();
-  RotaryEncoder::encoderState state = encoder.getMovement();
-  switch (state) {
-    case RotaryEncoder::DOWN:
-    case RotaryEncoder::UP:
-      break;
-    case RotaryEncoder::PRESS:
-      break;
-    default:
-      break;
-  }
+  RotaryEncoder::encoderState state = encoder.getStatus();
   uint16_t f = (uint16_t) freq;
   int t = display.userInputValue("Test", "Frequency =", &f, 200, 1500, 20, "Hz", state);
   if (t > 0) {
@@ -69,7 +60,7 @@ void updateControl(){
     aSin.setFreq(freq);
   }
   display.update();
-  encoder.resetMovement();
+  encoder.resetStatus();
   // put changing controls in here
 }
 

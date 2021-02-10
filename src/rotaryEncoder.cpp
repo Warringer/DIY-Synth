@@ -32,17 +32,17 @@ namespace RotaryEncoder {
     void RotaryEncoder::update() {
         button->update();
         int8_t pos = encoder->read();
-        move = NIL;
+        status = NIL;
         if (button->changed()) {
             pressed = button->read();
-            if (pressed) { move = PRESS; }
+            if (pressed) { status = PRESS; }
         }
         if (oldPos - pos > ENCODER_COUNT) {
-            move = UP;
+            status = UP;
             oldPos = pos;
             position++;
         } else if (pos - oldPos > ENCODER_COUNT) {
-            move = DOWN;
+            status = DOWN;
             oldPos = pos;
             position--;
         } else {
