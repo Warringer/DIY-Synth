@@ -19,6 +19,9 @@ namespace DisplayTFT {
             uint16_t selected;
             boolean userDone;
             uint8_t selectionListSize;
+            uint8_t lowerPartBegin;
+            boolean refreshStatus;
+            boolean newStatus;
 
         public:
             /**
@@ -32,11 +35,14 @@ namespace DisplayTFT {
                 displayHeight = tft.height();
                 displayWidth  = tft.width();
                 selected = 0;
-                userDone = false;
+                userDone = true;
                 selectionListSize = 10;
                 tft.initR(INITR_BLACKTAB);
-                tft.fillScreen(ST7735_BLACK);
                 tft.setRotation(tft.getRotation()+2);
+                tft.fillScreen(ST7735_BLACK);
+                lowerPartBegin = 105;
+                refreshStatus = false;
+                newStatus = true;
             };
 
             /**
@@ -56,6 +62,30 @@ namespace DisplayTFT {
              *                  false, when display refresh does not happen
              */
             boolean isRefreshed() { return refresh; };
+
+            /**
+             * @brief   Set the Refresh variable
+             *
+             */
+            void setRefreshStatus() { refreshStatus = true; };
+            /**
+             * @brief   Resets the Refresh variable
+             *
+             */
+            void resetRefreshStatus() { refreshStatus = false; };
+            /**
+             * @brief   returns the status of the refresh variable
+             *
+             * @return boolean  true, if the display gets refreshed
+             *                  false, when display refresh does not happen
+             */
+            boolean isRefreshedStatus() { return refreshStatus; };
+
+            /**
+             * @brief   
+             * 
+             */
+            void setNewStatus() { newStatus = true; };
 
             /**
              * @brief   User Interface method to create a TextBox in any part of the display
@@ -132,6 +162,24 @@ namespace DisplayTFT {
              */
             uint8_t userSelectionList(const char* title, uint16_t *selectPos, const char *list[], uint8_t listSize, RotaryEncoder::encoderState state);
 
+            /**
+             * @brief   Creates a Status Display in the Lower part of the Display
+             *          Can be called repeatedly to display changed valued.
+             *          If different Values, e.g. temperatures instead of voltages
+             *          the method 'Display::setNewStatus()' needs to be executes to change the value Text
+             * 
+             * @param title         Title of the Status Display
+             * @param value1        First Value to be displayed
+             * @param value1Text    Text for the first Value
+             * @param value2        Second Value to be displayed
+             * @param value2Text    Text for the second Value
+             * @param value3        Third Value of the Status
+             * @param value3Text    Text for the third Value
+             * @param value4        Fourth Value to be displayed
+             * @param value4Text    Text for the fourth Value
+             */
+            void drawStatus(const char* title, int *value1, char* value1Text, int *value2 = NULL, char* value2Text = NULL, int *value3 = NULL, char* value3Text = NULL, int *value4 = NULL, char* value4Text = NULL);
+
              /**
              * @brief   Method to update the display if the Refresh Variable is set
              *          Method just present for compatibility reasons with OLED version of this class
@@ -144,7 +192,7 @@ namespace DisplayTFT {
              *          Method just present for compatibility reasons with OLED version of this class
              *
              */
-            void begin() {};
+            void begin() { tft.fillScreen(ST7735_BLACK); };
     };
 
 }

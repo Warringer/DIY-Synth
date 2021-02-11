@@ -51,21 +51,26 @@ void setup() {
   aSin.setFreq(freq); // set the frequency
 }
 
-int help = 1;
+uint16_t help = 1;
+int help2 = 1;
+int i = 0;
 const char *testList[] = { "Alpha", "Beta", "Gamma", "Delta", "Epsilon", "Zeta", "Eta", "Theta", "Iota", "Kappa"};
 
 void updateControl(){
   encoder.update();
   RotaryEncoder::encoderState state = encoder.getStatus();;
-  /**int t = display.userSelectionList("Test", &help, testList, 10, state);
+  int t = display.userSelectionList("Test", &help, testList, 10, state);
   if (t > 0) {
-    help++;
+    help2 += 100;
   }//*/
-  //int t = display.userInputValue("Display", "Display Intensity", &help, 0, 15, 1, "", state);
+  //int t = display.userInputValue("Display", "Display Intensity", &help2, 0, 15, 1, "", state);
   /**if (t > 0) {
     analogWrite(TFT_LED, help);
   }//*/
-  int t = display.userMessage("Test", "Line 1\nLine 2\nLine 3", state);
+  //int t = display.userMessage("Test", "Line 1\nLine 2\nLine 3", state);
+  if (i > 64) { i = 0; help2++; display.setRefreshStatus();}
+  i++;
+  display.drawStatus("Status", &help2, "ABC", &help2, "DEF", &help2, "GHI", &help2, "JKL");
   encoder.resetStatus();
   display.update();
   // put changing controls in here

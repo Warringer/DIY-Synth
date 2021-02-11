@@ -174,7 +174,7 @@ namespace DisplayTFT {
         }
         if (isRefreshed()) {
             tft.fillRect(0, 0, 10, titleHeight, tft.Color565(0, 76, 186));
-            tft.fillRect(0, titleHeight + 2, 10, displayHeight - (titleHeight +1), ST7735_BLACK);
+            tft.fillRect(0, titleHeight + 2, 10, displayHeight - (titleHeight +1) - (displayHeight - lowerPartBegin), ST7735_BLACK);
             if (selected == 0) {
                 tft.setCursor(1, 2);
                 tft.print(">");
@@ -188,6 +188,47 @@ namespace DisplayTFT {
             }
         }
         return 0;
+    }
+
+    void Display::drawStatus(const char* title, int *value1, char* value1Text, int *value2, char* value2Text, int *value3, char* value3Text, int *value4, char* value4Text) {
+        if (newStatus) {
+            drawTextBox(0, lowerPartBegin + 1, displayWidth, title, true);
+            newStatus = false;
+            tft.setCursor(20, lowerPartBegin + titleHeight + 10, true);
+            tft.print(value1Text);
+            if (value2Text) {
+                tft.setCursor((displayWidth >> 1) + 20, lowerPartBegin + titleHeight + 10, true);
+                tft.print(value2Text);
+            }
+            if (value3Text) {
+                tft.setCursor(20, lowerPartBegin + titleHeight + 25, true);
+                tft.print(value3Text);
+            }
+            if (value4Text) {
+                tft.setCursor((displayWidth >> 1) + 20, lowerPartBegin + titleHeight + 25, true);
+                tft.print(value4Text);
+            }
+            setRefreshStatus();
+        }
+        if (isRefreshedStatus()) {
+            tft.fillRect(32, lowerPartBegin + titleHeight + 3, 30, 64, ST7735_BLACK);
+            tft.fillRect((displayWidth >> 1) + 32, lowerPartBegin + titleHeight + 3, 30, 64, ST7735_BLACK);
+            tft.setCursor(50, lowerPartBegin + titleHeight + 10, true);
+            tft.print(*value1);
+            if (value2Text) {
+                tft.setCursor((displayWidth >> 1) + 50, lowerPartBegin + titleHeight + 10, true);
+                tft.print(*value2);
+            }
+            if (value3Text) {
+                tft.setCursor(50, lowerPartBegin + titleHeight + 25, true);
+                tft.print(*value3);
+            }
+            if (value4Text) {
+                tft.setCursor((displayWidth >> 1) + 50, lowerPartBegin + titleHeight + 25, true);
+                tft.print(*value4);
+            }
+            resetRefreshStatus();
+        }
     }
 
 }
