@@ -7,7 +7,7 @@
 
 namespace Display {
 
-    extern U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2;
+    extern U8G2_SSD1306_128X64_NONAME_F_HW_I2C oled;
     //extern U8G2_SSD1306_128X64_NONAME_F_SW_I2C u8g2;
 
     /**
@@ -39,7 +39,7 @@ namespace Display {
              * @param width     Width of the Container where the text should be centered
              * @return uint8_t  x position relative to the container width
              */
-            uint8_t centerPos(const char* text, u8g2_uint_t width) { return (width - (strlen(text) * u8g2.getMaxCharWidth())) >> 1; };
+            uint8_t centerPos(const char* text, u8g2_uint_t width) { return (width - (strlen(text) * oled.getMaxCharWidth())) >> 1; };
 
             /**
              * @brief Convenience method to clear the display buffer, create a userDialog Title, and change the draw display color

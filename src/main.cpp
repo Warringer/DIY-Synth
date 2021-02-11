@@ -42,7 +42,7 @@ RotaryEncoder::RotaryEncoder encoder(ENCODER_PIN_A, ENCODER_PIN_B, ENCODER_BUTTO
 Display::Display display;
 
 void setup() {
-  Display::u8g2.begin();
+  Display::oled.begin();
   pinMode(LED_BUILTIN, OUTPUT);
   startMozzi(CONTROL_RATE); // :)
   aSin.setFreq(freq); // set the frequency
