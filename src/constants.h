@@ -9,10 +9,12 @@
 #define I2C_SCL         19
 #define I2C_SDA         18
 
-#define SPI_CS          10
+#define SPI_SCK         14
 #define SPI_DOUT        11
-#define SPI_DIN         12
-#define SPI_CLK         14
+#define SPI_CS1         10
+#define SPI_RST          9
+#define SPI_DC           8
+#define TFT_LED          6
 
 // Menu
 #define MENU_ITEM_LENGTH 16

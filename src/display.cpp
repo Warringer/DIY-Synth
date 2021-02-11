@@ -75,49 +75,6 @@ namespace Display {
         return 0;
     }
 
-    uint8_t Display::userInputValue(const char* title, const char* pre, uint16_t *value, uint16_t low, uint16_t high,  const char* post, RotaryEncoder::encoderState state) {
-        switch (state)
-        {
-        case RotaryEncoder::DOWN:
-            if (selected != low) {
-                selected--;
-            };
-            setRefresh();
-            break;
-        case RotaryEncoder::UP:
-            if (selected != high) {
-                selected++;
-            }
-            setRefresh();
-            break;
-        case RotaryEncoder::PRESS:
-            *value = (uint8_t) selected;
-            selected = 0;
-            userDone = true;
-            return 1;
-            break;
-        default:
-            break;
-        }
-        if (isRefreshed() or userDone) {
-            if (userDone) {
-                selected = *value;
-                refresh = true;
-                userDone = false;
-            }
-            makeTitle(title);
-            uint8_t fontHeight = oled.getMaxCharHeight() + 2;
-            oled.drawStr(centerPos(pre, displayWidth), 2 * fontHeight - 2, pre);
-            String val = String(selected) + " ";
-            char str[val.length()];
-            val.toCharArray(str, val.length());
-            oled.drawStr(centerPos(str, displayWidth), 3 * fontHeight, str);
-            uint8_t posPost = centerPos(str, displayWidth) + fontWidth * val.length() - (fontWidth >> 1);
-            oled.drawStr(posPost, 3 * fontHeight, post);
-        }
-        return 0;
-    }
-
     uint8_t Display::userInputValue(const char* title, const char* pre, uint16_t *value, uint16_t low, uint16_t high, uint8_t step, const char* post, RotaryEncoder::encoderState state) {
         switch (state)
         {

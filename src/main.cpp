@@ -36,29 +36,38 @@ int freq = 880;
 
 #include "rotaryEncoder.h"
 #include "constants.h"
-#include "display.h"
+#include "display_tft.h"
 
 RotaryEncoder::RotaryEncoder encoder(ENCODER_PIN_A, ENCODER_PIN_B, ENCODER_BUTTON);
-Display::Display display;
+DisplayTFT::Display display;
 
 void setup() {
-  Display::oled.begin();
+  analogWriteResolution(4);
+  display.begin();
   pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(TFT_LED, OUTPUT);
+  analogWrite(TFT_LED, 14);
   startMozzi(CONTROL_RATE); // :)
   aSin.setFreq(freq); // set the frequency
 }
 
-uint16_t help = 1;
-char *testList[] = { "Alpha", "Beta", "Gamma", "Delta", "Epsilon", "Omega", "Quaddro" };
+int help = 1;
+const char *testList[] = { "Alpha", "Beta", "Gamma", "Delta", "Epsilon", "Zeta", "Eta", "Theta", "Iota", "Kappa"};
 
 void updateControl(){
   encoder.update();
-  RotaryEncoder::encoderState state = encoder.getStatus();
-  int t = display.userSelectionList("Test", &help, testList, 7, state);
+  RotaryEncoder::encoderState state = encoder.getStatus();;
+  /**int t = display.userSelectionList("Test", &help, testList, 10, state);
   if (t > 0) {
-  }
-  display.update();
+    help++;
+  }//*/
+  //int t = display.userInputValue("Display", "Display Intensity", &help, 0, 15, 1, "", state);
+  /**if (t > 0) {
+    analogWrite(TFT_LED, help);
+  }//*/
+  int t = display.userMessage("Test", "Line 1\nLine 2\nLine 3", state);
   encoder.resetStatus();
+  display.update();
   // put changing controls in here
 }
 
