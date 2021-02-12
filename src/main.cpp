@@ -70,7 +70,6 @@ void updateControl(){
   //int t = display.userMessage("Test", "Line 1\nLine 2\nLine 3", state);
   display.drawStatus();
   encoder.resetStatus();
-  display.update();
   // put changing controls in here
 }
 

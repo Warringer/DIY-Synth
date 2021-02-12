@@ -189,12 +189,48 @@ namespace DisplayTFT {
              */
             void drawStatus();
 
-             /**
-             * @brief   Method to update the display if the Refresh Variable is set
-             *          Method just present for compatibility reasons with OLED version of this class
-             *
-             */
-            void update() {};
+            void drawRampIcon(uint16_t x, uint16_t y, uint16_t color) {
+                tft.drawLine(x, y + 7, x + 7, y, color);
+                tft.drawLine(x + 7, y, x + 7, y + 7, color);
+                tft.drawLine(x + 7, y + 7, x + 14, y, color);
+                tft.drawLine(x + 14, y, x + 14, y + 7, color);
+            };
+
+            void drawReverseRampIcon(uint16_t x, uint16_t y, uint16_t color) {
+                tft.drawLine(x, y, x, y + 7, color);
+                tft.drawLine(x, y, x + 7, y + 7, color);
+                tft.drawLine(x + 7, y, x + 7, y + 7, color);
+                tft.drawLine(x + 7, y, x + 14, y + 7, color);
+            };
+
+            void drawSquareIcon(uint16_t x, uint16_t y, uint16_t color) {
+                tft.drawLine(x, y , x, y + 7, color);
+                tft.drawLine(x + 7, y, x + 7, y + 7, color);
+                tft.drawLine(x + 14, y, x + 14, y + 7, color);
+                tft.drawLine(x, y, x + 7, y, color);
+                tft.drawLine(x + 7, y + 7, x + 14, y + 7, color);
+            };
+
+            void drawPulseIcon(uint16_t x, uint16_t y, uint16_t color) {
+                tft.drawLine(x, y, x, y + 7, color);
+                tft.drawLine(x + 3, y, x + 3, y + 7, color);
+                tft.drawLine(x + 14, y, x + 14, y + 7, color);
+                tft.drawLine(x, y, x + 3, y, color);
+                tft.drawLine(x + 3, y + 7, x + 14, y + 7, color);
+            };
+
+            void drawTriIcon(uint16_t x, uint16_t y, uint16_t color) {
+                tft.drawLine(x, y + 3, x + 3, y, color);
+                tft.drawLine(x + 3, y, x + 10, y + 7, color);
+                tft.drawLine(x + 10, y + 7, x + 14, y + 3, color);
+            };
+
+            void drawSinIcon(uint16_t x, uint16_t y, uint16_t color) {
+                tft.drawLine(x, y + 3, x + 2, y, color);
+                tft.drawLine(x + 3, y, x + 5, y + 3, color);
+                tft.drawLine(x + 6, y + 3, x + 8, y + 6, color);
+                tft.drawLine(x + 9, y + 6, x + 11, y + 3, color);
+            };
 
             /**
              * @brief   Method to start the  Display
