@@ -68,9 +68,7 @@ void updateControl(){
     analogWrite(TFT_LED, help);
   }//*/
   //int t = display.userMessage("Test", "Line 1\nLine 2\nLine 3", state);
-  if (i > 64) { i = 0; help2++; display.setRefreshStatus();}
-  i++;
-  display.drawStatus("Status", &help2, "ABC", &help2, "DEF", &help2, "GHI", &help2, "JKL");
+  display.drawStatus();
   encoder.resetStatus();
   display.update();
   // put changing controls in here

@@ -32,13 +32,13 @@ namespace DisplayTFT {
              */
             Display() {
                 refresh = false;
-                displayHeight = tft.height();
-                displayWidth  = tft.width();
+                displayHeight = tft.width();
+                displayWidth  = tft.height();
                 selected = 0;
                 userDone = true;
                 selectionListSize = 10;
                 tft.initR(INITR_BLACKTAB);
-                tft.setRotation(tft.getRotation()+2);
+                tft.setRotation(tft.getRotation()+1);
                 tft.fillScreen(ST7735_BLACK);
                 lowerPartBegin = 105;
                 refreshStatus = false;
@@ -178,7 +178,7 @@ namespace DisplayTFT {
              * @param value4        Fourth Value to be displayed
              * @param value4Text    Text for the fourth Value
              */
-            void drawStatus(const char* title, int *value1, char* value1Text, int *value2 = NULL, char* value2Text = NULL, int *value3 = NULL, char* value3Text = NULL, int *value4 = NULL, char* value4Text = NULL);
+            void drawStatus();
 
              /**
              * @brief   Method to update the display if the Refresh Variable is set
