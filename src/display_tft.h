@@ -22,6 +22,7 @@ namespace DisplayTFT {
             uint8_t lowerPartBegin;
             boolean refreshStatus;
             boolean newStatus;
+            uint16_t boxBackgroundColor;
 
         public:
             /**
@@ -43,6 +44,7 @@ namespace DisplayTFT {
                 lowerPartBegin = 105;
                 refreshStatus = false;
                 newStatus = true;
+                boxBackgroundColor = tft.Color565(186, 76, 0);
             };
 
             /**
@@ -86,6 +88,13 @@ namespace DisplayTFT {
              * 
              */
             void setNewStatus() { newStatus = true; };
+
+            /**
+             * @brief Set the Box Background color
+             * 
+             * @param color     from Color565 or similar
+             */
+            void setBoxBackground(uint16_t color) { boxBackgroundColor = color; };
 
             /**
              * @brief   User Interface method to create a TextBox in any part of the display

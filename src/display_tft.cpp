@@ -5,7 +5,7 @@ namespace DisplayTFT {
     ST7735_t3 tft = ST7735_t3(SPI_CS1, SPI_DC, SPI_DOUT, SPI_SCK, SPI_RST);
 
     void Display::drawTextBox(uint16_t x, uint16_t y, uint16_t width, const char* text, boolean inverted) {
-        uint16_t boxColor = tft.Color565(0, 76, 186); // 50% Gra
+        uint16_t boxColor = boxBackgroundColor; // 50% Gra
         uint8_t textHeight = tft.getTextSizeX() * 8;
         if (inverted) {
             tft.fillRect(x, y, width, textHeight + 4, boxColor);
@@ -173,7 +173,7 @@ namespace DisplayTFT {
             }
         }
         if (isRefreshed()) {
-            tft.fillRect(0, 0, 10, titleHeight, tft.Color565(0, 76, 186));
+            tft.fillRect(0, 0, 10, titleHeight, boxBackgroundColor);
             tft.fillRect(0, titleHeight + 2, 10, displayHeight - (titleHeight +1) - (displayHeight - lowerPartBegin), ST7735_BLACK);
             if (selected == 0) {
                 tft.setCursor(1, 2);
@@ -192,7 +192,7 @@ namespace DisplayTFT {
 
     void Display::drawStatus() {
         if (newStatus) {
-            tft.fillRect(0, displayHeight - titleHeight, displayWidth, titleHeight, tft.Color565(0, 76, 186));
+            tft.fillRect(0, displayHeight - titleHeight, displayWidth, titleHeight, boxBackgroundColor);
             newStatus = false;
 
             setRefreshStatus();
