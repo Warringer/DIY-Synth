@@ -17,6 +17,8 @@ namespace DisplayTFT {
     }
 
     void Display::drawTitle(const char* title) {
+        tft.fillScreen(ST7735_BLACK);
+        newStatus = true;
         titleHeight = tft.getTextSizeX() * 8 + 2;
         drawTextBox(0, 0, displayWidth, title, true);
     }
@@ -194,25 +196,6 @@ namespace DisplayTFT {
         if (newStatus) {
             tft.fillRect(0, displayHeight - titleHeight - 1, displayWidth, titleHeight + 1, boxBackgroundColor);
             newStatus = false;
-            int x = 5;
-            int y = displayHeight - titleHeight + 1;
-            // Ramp
-            drawRampIcon(x, y, ST7735_WHITE);
-            x = x + 20;
-            drawReverseRampIcon(x, y, ST7735_WHITE);
-            x = x + 20;
-            // Square
-            drawSquareIcon(x, y, ST7735_WHITE);
-            // Pulse
-            x = x + 20;
-            drawPulseIcon(x, y, ST7735_WHITE);
-            // Tri
-            x = x + 20;
-            drawTriIcon(x, y, ST7735_WHITE);
-            // Sin
-            x = x + 20;
-            drawSinIcon(x, y, ST77XX_WHITE);
-
             setRefreshStatus();
         }
         if (isRefreshedStatus()) {

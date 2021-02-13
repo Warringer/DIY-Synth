@@ -124,6 +124,8 @@ namespace DisplayTFT {
              *          Selection of the Buttons is per RotaryEncoder and is non-blocking
              *          Selection is done by pressing the RotaryEncoder Button
              *
+             *          int t = display.userMessage("Test", "Line 1\nLine 2\nLine 3", state);
+             *
              * @param title     Title of the UserDialog
              * @param text      Text of the Message Box May use multiple lines terminated with '\n'
              * @param state     Status of the Rotary Encoder
@@ -137,6 +139,12 @@ namespace DisplayTFT {
              * @brief   UserDialog to Input a uint16_t value, increasing by a given step size
              *          The Value is changed per RotaryEncoder and is non-blocking
              *          The Value can be accepted by pressing the RotaryEncoder Button
+             *
+             *          uint16_t help = 1;
+             *          int t = display.userInputValue("Display", "Display Intensity", &help2, 0, 15, 1, "", state);
+             *          if (t > 0) {
+             *              analogWrite(TFT_LED, help);
+             *          }
              *
              * @param title     Title of the UserDialog
              * @param pre       Explanation of the Value
@@ -157,6 +165,13 @@ namespace DisplayTFT {
              *          The item on the list can be selected per RotaryEncoder and is non-blocking
              *          The item can be selected by pressing the RotaryEncoder Button
              *          Note:   selectPos return 0, when the Title has been chosen, for e.g. escaping the UserDialog
+             * 
+             *          uint16_t help = 1;
+             *          const char *testList[] = { "Alpha", "Beta", "Gamma", "Delta", "Epsilon", "Zeta", "Eta", "Theta", "Iota", "Kappa"};
+             *          int t = display.userSelectionList("title", &help, testList, 10, state);
+             *          if (t > 0) {
+             *              help += 100;
+             *          }
              *
              * @param title     Title of the UserDialog
              * @param selectPos pointer to the initial selected item on the dialog
@@ -176,7 +191,7 @@ namespace DisplayTFT {
              *          Can be called repeatedly to display changed valued.
              *          If different Values, e.g. temperatures instead of voltages
              *          the method 'Display::setNewStatus()' needs to be executes to change the value Text
-             * 
+             *
              * @param title         Title of the Status Display
              * @param value1        First Value to be displayed
              * @param value1Text    Text for the first Value
@@ -189,6 +204,13 @@ namespace DisplayTFT {
              */
             void drawStatus();
 
+            /**
+             * @brief       Draws a Ramp Icon at position x, y of Size 14x7
+             *
+             * @param x     x position
+             * @param y     y position
+             * @param color color
+             */
             void drawRampIcon(uint16_t x, uint16_t y, uint16_t color) {
                 tft.drawLine(x, y + 7, x + 7, y, color);
                 tft.drawLine(x + 7, y, x + 7, y + 7, color);
@@ -196,6 +218,13 @@ namespace DisplayTFT {
                 tft.drawLine(x + 14, y, x + 14, y + 7, color);
             };
 
+            /**
+             * @brief       Draws a Reverse Ramp Icon at position x, y of Size 14x7
+             *
+             * @param x     x position
+             * @param y     y position
+             * @param color color
+             */
             void drawReverseRampIcon(uint16_t x, uint16_t y, uint16_t color) {
                 tft.drawLine(x, y, x, y + 7, color);
                 tft.drawLine(x, y, x + 7, y + 7, color);
@@ -203,6 +232,13 @@ namespace DisplayTFT {
                 tft.drawLine(x + 7, y, x + 14, y + 7, color);
             };
 
+            /**
+             * @brief       Draws a Square Icon at position x, y of Size 14x7
+             *
+             * @param x     x position
+             * @param y     y position
+             * @param color color
+             */
             void drawSquareIcon(uint16_t x, uint16_t y, uint16_t color) {
                 tft.drawLine(x, y , x, y + 7, color);
                 tft.drawLine(x + 7, y, x + 7, y + 7, color);
@@ -211,6 +247,13 @@ namespace DisplayTFT {
                 tft.drawLine(x + 7, y + 7, x + 14, y + 7, color);
             };
 
+            /**
+             * @brief       Draws a Pulse Icon at position x, y of Size 14x7
+             *
+             * @param x     x position
+             * @param y     y position
+             * @param color color
+             */
             void drawPulseIcon(uint16_t x, uint16_t y, uint16_t color) {
                 tft.drawLine(x, y, x, y + 7, color);
                 tft.drawLine(x + 3, y, x + 3, y + 7, color);
@@ -219,18 +262,41 @@ namespace DisplayTFT {
                 tft.drawLine(x + 3, y + 7, x + 14, y + 7, color);
             };
 
+            /**
+             * @brief       Draws a Triangle Icon at position x, y of Size 14x7
+             *
+             * @param x     x position
+             * @param y     y position
+             * @param color color
+             */
             void drawTriIcon(uint16_t x, uint16_t y, uint16_t color) {
                 tft.drawLine(x, y + 3, x + 3, y, color);
                 tft.drawLine(x + 3, y, x + 10, y + 7, color);
                 tft.drawLine(x + 10, y + 7, x + 14, y + 3, color);
             };
 
+            /**
+             * @brief       Draws a Sine Icon at position x, y of Size 14x7
+             *
+             * @param x     x position
+             * @param y     y position
+             * @param color color
+             */
             void drawSinIcon(uint16_t x, uint16_t y, uint16_t color) {
                 tft.drawLine(x, y + 3, x + 2, y, color);
                 tft.drawLine(x + 3, y, x + 5, y + 3, color);
                 tft.drawLine(x + 6, y + 3, x + 8, y + 6, color);
                 tft.drawLine(x + 9, y + 6, x + 11, y + 3, color);
             };
+
+            uint16_t getStatusColor() { return ST7735_WHITE; };
+
+            uint8_t getStatusYPos() { return displayHeight - titleHeight - 1; };
+
+            void drawStatusText(uint8_t x, uint8_t y, char *text) {
+                tft.setCursor(x, y);
+                tft.print(text);
+            }
 
             /**
              * @brief   Method to start the  Display

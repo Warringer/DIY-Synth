@@ -37,6 +37,7 @@ int freq = 880;
 #include "rotaryEncoder.h"
 #include "constants.h"
 #include "display_tft.h"
+#include "menu.h"
 
 RotaryEncoder::RotaryEncoder encoder(ENCODER_PIN_A, ENCODER_PIN_B, ENCODER_BUTTON);
 DisplayTFT::Display display;
@@ -51,34 +52,24 @@ void setup() {
   aSin.setFreq(freq); // set the frequency
 }
 
-uint16_t help = 1;
-int help2 = 1;
-int i = 0;
-const char *testList[] = { "Alpha", "Beta", "Gamma", "Delta", "Epsilon", "Zeta", "Eta", "Theta", "Iota", "Kappa"};
+void handleAudio() {
+  
+}
 
-void updateControl(){
+void updateControl() {
   encoder.update();
   RotaryEncoder::encoderState state = encoder.getStatus();;
-  int t = display.userSelectionList("Test", &help, testList, 10, state);
-  if (t > 0) {
-    help2 += 100;
-  }//*/
-  //int t = display.userInputValue("Display", "Display Intensity", &help2, 0, 15, 1, "", state);
-  /**if (t > 0) {
-    analogWrite(TFT_LED, help);
-  }//*/
-  //int t = display.userMessage("Test", "Line 1\nLine 2\nLine 3", state);
-  display.drawStatus();
+  handleMenu(&display, state);
+  handleStatus(&display);
   encoder.resetStatus();
-  // put changing controls in here
 }
 
 
-int updateAudio(){
+int updateAudio() {
   return aSin.next(); // return an int signal centred around 0
 }
 
 
-void loop(){
+void loop() {
   audioHook(); // required here
 }
