@@ -53,14 +53,14 @@ void setup() {
 }
 
 void handleAudio() {
-  
+
 }
 
 void updateControl() {
   encoder.update();
   RotaryEncoder::encoderState state = encoder.getStatus();;
-  handleMenu(&display, state);
-  handleStatus(&display);
+  Menu::handleMenu(&display, state);
+  Menu::handleStatus(&display);
   encoder.resetStatus();
 }
 
