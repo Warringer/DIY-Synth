@@ -17,21 +17,23 @@ namespace Menu {
     #define LFO_MENU_SIZE 1
     extern uint16_t lfo_menu_selection;
 
-    extern const char *oszi_menu[];
-    extern const char oszi_menu_title[];
-    #define OSZI_MENU_SIZE 1
-    extern uint16_t oszi_menu_selection;
+    extern const char *osci_menu[];
+    extern const char osci_menu_title[];
+    #define OScI_MENU_SIZE 1
+    extern uint16_t osci_menu_selection;
 
     extern const char *waveform_menu[];
-    #define WAVEFORM_MENU_SIZE 6
+    #define WAVEFORM_MENU_SIZE 4
 
     extern const char lfo_waveform_title[];
     extern uint16_t lfo_waveform_selection;
     extern uint8_t lfo_waveform;
+    extern boolean lfo_waveform_changed;
 
-    extern const char oszi_waveform_title[];
-    extern uint16_t oszi_waveform_selection;
-    extern uint8_t oszi_waveform;
+    extern const char osci_waveform_title[];
+    extern uint16_t osci_waveform_selection;
+    extern uint8_t osci_waveform;
+    extern boolean osci_waveform_changed;
 
     enum Waveform {
         SINE,
@@ -45,9 +47,9 @@ namespace Menu {
     enum MenuState {
         MAIN_MENU,
         LFO_MENU,
-        OSZI_MENU,
+        OSCI_MENU,
         LFO_WAVEFORM,
-        OSZI_WAVEFORM
+        OSCI_WAVEFORM
     };
 
     void handleMenu(DisplayTFT::Display *display, RotaryEncoder::encoderState state);
@@ -55,10 +57,10 @@ namespace Menu {
 
     void showMainMenu(DisplayTFT::Display *display, RotaryEncoder::encoderState state);
     void showLfoMenu(DisplayTFT::Display *display, RotaryEncoder::encoderState state);
-    void showOsziMenu(DisplayTFT::Display *display, RotaryEncoder::encoderState state);
+    void showOsciMenu(DisplayTFT::Display *display, RotaryEncoder::encoderState state);
 
     void showLfoWaveformMenu(DisplayTFT::Display *display, RotaryEncoder::encoderState state);
-    void showOsziWaveformMenu(DisplayTFT::Display *display, RotaryEncoder::encoderState state);
+    void showOsciWaveformMenu(DisplayTFT::Display *display, RotaryEncoder::encoderState state);
 
     void showStatus(DisplayTFT::Display *display);
 

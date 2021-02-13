@@ -298,6 +298,10 @@ namespace DisplayTFT {
                 tft.print(text);
             }
 
+            void drawStatusText(uint8_t x, uint8_t y, int text) {
+                tft.drawNumber(text, x, y);
+            }
+
             /**
              * @brief   Method to start the  Display
              *          Method just present for compatibility reasons with OLED version of this class

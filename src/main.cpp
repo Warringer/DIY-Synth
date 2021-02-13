@@ -22,6 +22,12 @@
 #include <MozziGuts.h>
 #include <Oscil.h> // oscillator template
 #include <tables/sin2048_int8.h> // sine table for oscillator
+#include <tables/saw2048_int8.h> // saw table generator
+#include <tables/square_no_alias_2048_int8.h>
+#include <tables/triangle2048_int8.h>
+#include <RollingAverage.h>
+//#include <AutoMap.h>
+#include <IntMap.h>
 
 // use: Oscil <table_size, update_rate> oscilName (wavetable), look in .h file of table #included above
 Oscil <SIN2048_NUM_CELLS, AUDIO_RATE> aSin(SIN2048_DATA);
@@ -32,12 +38,17 @@ Oscil <SIN2048_NUM_CELLS, AUDIO_RATE> aSin(SIN2048_DATA);
   #define CONTROL_RATE 128 // Hz, powers of 2 are most reliable
 #endif
 
-int freq = 880;
-
 #include "rotaryEncoder.h"
 #include "constants.h"
 #include "display_tft.h"
 #include "menu.h"
+
+// Smooth analog Inputs
+//RollingAverage <int, 16> kAverageFreq;
+
+IntMap kMapFreq(0, 1024, OSCI_MIN, OSCI_MIN);
+
+int kFreq = 880;
 
 RotaryEncoder::RotaryEncoder encoder(ENCODER_PIN_A, ENCODER_PIN_B, ENCODER_BUTTON);
 DisplayTFT::Display display;
@@ -49,11 +60,35 @@ void setup() {
   pinMode(TFT_LED, OUTPUT);
   analogWrite(TFT_LED, 14);
   startMozzi(CONTROL_RATE); // :)
-  aSin.setFreq(freq); // set the frequency
+  aSin.setFreq(kFreq);
+}
+
+void handleInputs() {
+  //int freq = mozziAnalogRead(FREQ_KNOB);
+  //freq = kMapFreq(freq);
+  //aSin.setFreq(freq);
 }
 
 void handleAudio() {
-
+  if (Menu::osci_waveform_changed) {
+    Menu::osci_waveform_changed = false;
+    switch (Menu::osci_waveform) {
+      case Menu::Waveform::SINE:
+        aSin.setTable(SIN2048_DATA);
+        break;
+      case Menu::Waveform::RAMP:
+        aSin.setTable(SAW2048_DATA);
+        break;
+      case Menu::Waveform::SQUARE:
+        aSin.setTable(SQUARE_NO_ALIAS_2048_DATA);
+        break;
+      case Menu::Waveform::TRI:
+        aSin.setTable(TRIANGLE2048_DATA);
+        break;
+      default:
+        break;
+    }
+  }
 }
 
 void updateControl() {
@@ -62,6 +97,8 @@ void updateControl() {
   Menu::handleMenu(&display, state);
   Menu::handleStatus(&display);
   encoder.resetStatus();
+  handleAudio();
+  handleInputs();
 }
 
 

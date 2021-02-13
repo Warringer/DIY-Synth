@@ -16,6 +16,12 @@
 #define SPI_DC           8
 #define TFT_LED          6
 
+#define FREQ_KNOB        A1
+
+// Frequencies
+#define OSCI_MAX        2000
+#define OSCI_MIN        200
+
 // Menu
 #define MENU_ITEM_LENGTH 16
 #define MENU_DISPLAY_SIZE 4

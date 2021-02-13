@@ -17,7 +17,7 @@ namespace DisplayTFT {
     }
 
     void Display::drawTitle(const char* title) {
-        tft.fillScreen(ST7735_BLACK);
+        //tft.fillScreen(ST7735_BLACK);
         newStatus = true;
         titleHeight = tft.getTextSizeX() * 8 + 2;
         drawTextBox(0, 0, displayWidth, title, true);

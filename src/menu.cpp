@@ -11,19 +11,21 @@ namespace Menu  {
     const char lfo_menu_title[] = "LFO";
     uint16_t lfo_menu_selection = 0;
 
-    const char *oszi_menu[] = { "Oszillator Waveform" };
-    const char oszi_menu_title[] = "Oszillator";
-    uint16_t oszi_menu_selection = 0;
+    const char *osci_menu[] = { "Oscillator Waveform" };
+    const char osci_menu_title[] = "Oscillator";
+    uint16_t osci_menu_selection = 0;
 
-    const char *waveform_menu[] = {"Sine", "Triangle", "Square", "Pulse", "Ramp", "Inv Ramp"};
+    const char *waveform_menu[] = {"Sine", "Triangle", "Square", "Ramp"};
 
     const char lfo_waveform_title[] = "LFO Waveform";
     uint16_t lfo_waveform_selection = 0;
     uint8_t lfo_waveform = Waveform::SINE;
+    boolean lfo_waveform_changed = false;
 
-    const char oszi_waveform_title[] = "Oscillator Waveform";
-    uint16_t oszi_waveform_selection = 0;
-    uint8_t oszi_waveform = Waveform::SINE;
+    const char osci_waveform_title[] = "Oscillator Waveform";
+    uint16_t osci_waveform_selection = 0;
+    uint8_t osci_waveform = Waveform::SINE;
+    boolean osci_waveform_changed = false;
 
 
     MenuState menuState = MenuState::MAIN_MENU;
@@ -36,14 +38,14 @@ namespace Menu  {
             case MenuState::LFO_MENU:
                 showLfoMenu(display, state);
                 break;
-            case MenuState::OSZI_MENU:
-                showOsziMenu(display, state);
+            case MenuState::OSCI_MENU:
+                showOsciMenu(display, state);
                 break;
             case MenuState::LFO_WAVEFORM:
                 showLfoWaveformMenu(display, state);
                 break;
-            case MenuState::OSZI_WAVEFORM:
-                showOsziWaveformMenu(display, state);
+            case MenuState::OSCI_WAVEFORM:
+                showOsciWaveformMenu(display, state);
             default:
                 break;
         }
@@ -62,7 +64,7 @@ namespace Menu  {
                 menuState = MenuState::LFO_MENU;
                 break;
             case 2:
-                menuState = MenuState::OSZI_MENU;
+                menuState = MenuState::OSCI_MENU;
                 break;
             default:
                 break;
@@ -86,15 +88,15 @@ namespace Menu  {
         }
     }
 
-    void showOsziMenu(DisplayTFT::Display *display, RotaryEncoder::encoderState state) {
-        int t = display->userSelectionList(oszi_menu_title, &oszi_menu_selection, oszi_menu, LFO_MENU_SIZE, state);
+    void showOsciMenu(DisplayTFT::Display *display, RotaryEncoder::encoderState state) {
+        int t = display->userSelectionList(osci_menu_title, &osci_menu_selection, osci_menu, LFO_MENU_SIZE, state);
         if (t > 0) {
-            switch (oszi_menu_selection) {
+            switch (osci_menu_selection) {
             case 0:
                 menuState = MenuState::MAIN_MENU;
                 break;
             case 1:
-                menuState = MenuState::OSZI_WAVEFORM;
+                menuState = MenuState::OSCI_WAVEFORM;
                 break;
             default:
                 break;
@@ -116,47 +118,41 @@ namespace Menu  {
                     lfo_waveform = Waveform::SQUARE;
                     break;
                 case 4:
-                    lfo_waveform = Waveform::PULSE;
-                    break;
-                case 5:
                     lfo_waveform = Waveform::RAMP;
-                    break;
-                case 6:
-                    lfo_waveform = Waveform::INV_RAMP;
                     break;
                 default:
                     break;
+            }
+            if (lfo_menu_selection > 0){
+                lfo_waveform_changed = true;
             }
             menuState = MenuState::LFO_MENU;
         }
     }
 
-    void showOsziWaveformMenu(DisplayTFT::Display *display, RotaryEncoder::encoderState state) {
-        int t = display->userSelectionList(lfo_menu_title, &oszi_menu_selection, waveform_menu, WAVEFORM_MENU_SIZE, state);
+    void showOsciWaveformMenu(DisplayTFT::Display *display, RotaryEncoder::encoderState state) {
+        int t = display->userSelectionList(lfo_menu_title, &osci_menu_selection, waveform_menu, WAVEFORM_MENU_SIZE, state);
         if (t > 0) {
-            switch (oszi_menu_selection) {
+            switch (osci_menu_selection) {
                 case 1:
-                    oszi_waveform = Waveform::SINE;
+                    osci_waveform = Waveform::SINE;
                     break;
                 case 2:
-                    oszi_waveform = Waveform::TRI;
+                    osci_waveform = Waveform::TRI;
                     break;
                 case 3:
-                    oszi_waveform = Waveform::SQUARE;
+                    osci_waveform = Waveform::SQUARE;
                     break;
                 case 4:
-                    oszi_waveform = Waveform::PULSE;
-                    break;
-                case 5:
-                    oszi_waveform = Waveform::RAMP;
-                    break;
-                case 6:
-                    oszi_waveform = Waveform::INV_RAMP;
+                    osci_waveform = Waveform::RAMP;
                     break;
                 default:
                     break;
             }
-            menuState = MenuState::OSZI_MENU;
+            if (osci_menu_selection > 0){
+                osci_waveform_changed = true;
+            }
+            menuState = MenuState::OSCI_MENU;
         }
     }
 
@@ -176,39 +172,27 @@ namespace Menu  {
             case Waveform::SQUARE:
                 display->drawSquareIcon(lfoXPos, statusYPos, color);
                 break;
-            case Waveform::PULSE:
-                display->drawPulseIcon(lfoXPos, statusYPos, color);
-                break;
             case Waveform::RAMP:
                 display->drawRampIcon(lfoXPos, statusYPos, color);
-                break;
-            case Waveform::INV_RAMP:
-                display->drawReverseRampIcon(lfoXPos, statusYPos, color);
                 break;
             default:
                 break;
         }
-        uint8_t osziXPos = lfoXPos + 20;
-        display->drawStatusText(osziXPos, statusYPos, "Oszi:");
-        osziXPos += 31;
-        switch (oszi_waveform) {
+        uint8_t osciXPos = lfoXPos + 20;
+        display->drawStatusText(osciXPos, statusYPos, "Osci:");
+        osciXPos += 31;
+        switch (osci_waveform) {
             case Waveform::SINE:
-                display->drawSinIcon(osziXPos, statusYPos, color);
+                display->drawSinIcon(osciXPos, statusYPos, color);
                 break;
             case Waveform::TRI:
-                display->drawTriIcon(osziXPos, statusYPos, color);
+                display->drawTriIcon(osciXPos, statusYPos, color);
                 break;
             case Waveform::SQUARE:
-                display->drawSquareIcon(osziXPos, statusYPos, color);
-                break;
-            case Waveform::PULSE:
-                display->drawPulseIcon(osziXPos, statusYPos, color);
+                display->drawSquareIcon(osciXPos, statusYPos, color);
                 break;
             case Waveform::RAMP:
-                display->drawRampIcon(osziXPos, statusYPos, color);
-                break;
-            case Waveform::INV_RAMP:
-                display->drawReverseRampIcon(osziXPos, statusYPos, color);
+                display->drawRampIcon(osciXPos, statusYPos, color);
                 break;
             default:
                 break;
