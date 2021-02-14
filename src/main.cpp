@@ -40,7 +40,7 @@ void setup() {
   analogWriteResolution(4);
   display.begin();
   pinMode(LED_BUILTIN, OUTPUT);
-  startMozzi(CONTROL_RATE); // :)
+  Synth::setupSynth();
 }
 
 void handleInputs() {
@@ -59,11 +59,12 @@ void updateControl() {
   encoder.resetStatus();
   handleAudio();
   handleInputs();
+  Synth::updateControl();
 }
 
 
 int updateAudio() {
-  return Synth::aSin.next(); // return an int signal centred around 0
+  return Synth::updateAudio(); // return an int signal centred around 0
 }
 
 

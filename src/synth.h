@@ -11,6 +11,9 @@
 #include <RollingAverage.h>
 //#include <AutoMap.h>
 #include <IntMap.h>
+#include <ADSR.h>
+
+#include <Bounce2.h>
 
 #include "constants.h"
 #include "menu.h"
@@ -20,6 +23,8 @@ namespace Synth {
     // use: Oscil <table_size, update_rate> oscilName (wavetable), look in .h file of table #included above
     extern Oscil <SIN2048_NUM_CELLS, AUDIO_RATE> aSin;
 
+    extern ADSR <CONTROL_RATE, AUDIO_RATE> envelope;
+
     // Smooth analog Inputs
     extern RollingAverage <int, 16> kAverageFreq;
 
@@ -27,8 +32,16 @@ namespace Synth {
 
     extern int kFreq;
 
+    extern boolean gate_button;
+    extern boolean gate_button_pressed;
+
+    void setupSynth();
+
     void handleOsciWaveform();
     void handleOsciFrequency();
+
+    void updateControl();
+    int updateAudio();
 
 }
 

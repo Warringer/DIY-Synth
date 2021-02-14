@@ -192,8 +192,7 @@ namespace Menu  {
                 break;
         }
         uint8_t osciXPos = lfoXPos + 20;
-        display->cleanStatusArea(osciXPos, statusYPos + 8, 30, 8);
-        display->drawStatusText(osciXPos, statusYPos + 8, osci_freq);
+        display->drawStatusValue(osciXPos, statusYPos + 8, osci_freq, "Hz");
         display->drawStatusText(osciXPos, statusYPos, "Osci:");
         osciXPos += 31;
         switch (osci_waveform) {
