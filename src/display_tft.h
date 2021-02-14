@@ -289,25 +289,65 @@ namespace DisplayTFT {
                 tft.drawLine(x + 9, y + 6, x + 11, y + 3, color);
             };
 
+            /**
+             * @brief Get the color used to draw Status Text
+             *
+             * @return uint16_t     Color of the Status Text
+             */
             uint16_t getStatusColor() { return ST7735_WHITE; };
 
-            uint8_t getStatusYPos() { return displayHeight - titleHeight - 1; };
+            /**
+             * @brief Get the y position of the Status Area
+             *
+             * @return uint8_t  x position of the Status area
+             */
+            uint8_t getStatusYPos() { return displayHeight - 2 * titleHeight - 1; };
 
+            /**
+             * @brief   draws a Text in the Status Area at x, y position
+             *
+             * @param x     x position
+             * @param y     y position
+             * @param text  Text to be displayed
+             */
             void drawStatusText(uint8_t x, uint8_t y, char *text) {
                 tft.setCursor(x, y);
                 tft.print(text);
             }
 
+            /**
+             * @brief   draws an integer in the Status Area at x, y position
+             *
+             * @param x     x position
+             * @param y     y position
+             * @param text  integer to be displayed
+             */
             void drawStatusText(uint8_t x, uint8_t y, int text) {
                 tft.drawNumber(text, x, y);
             }
+
+            /**
+             * @brief   Cleans up an area in the Status Area for repeated displaying
+             *
+             * @param x     x position
+             * @param y     y position
+             * @param w     width
+             * @param h     height
+             */
+            void cleanStatusArea(uint8_t x, uint8_t y, uint8_t w, uint8_t h) {
+                tft.fillRect(x, y, w, h, boxBackgroundColor);
+            };
 
             /**
              * @brief   Method to start the  Display
              *          Method just present for compatibility reasons with OLED version of this class
              *
              */
-            void begin() { tft.fillScreen(ST7735_BLACK); };
+            void begin() {
+                tft.fillScreen(ST7735_BLACK);
+                pinMode(TFT_LED, OUTPUT);
+                analogWrite(TFT_LED, 14);
+            };
     };
 
 }

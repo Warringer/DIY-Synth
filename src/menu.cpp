@@ -21,12 +21,16 @@ namespace Menu  {
     uint16_t lfo_waveform_selection = 0;
     uint8_t lfo_waveform = Waveform::SINE;
     boolean lfo_waveform_changed = false;
+    uint16_t lfo_freq;
 
     const char osci_waveform_title[] = "Oscillator Waveform";
     uint16_t osci_waveform_selection = 0;
     uint8_t osci_waveform = Waveform::SINE;
     boolean osci_waveform_changed = false;
+    uint16_t osci_freq;
 
+    uint8_t status_tick = 0;
+    boolean status_redraw = true;;
 
     MenuState menuState = MenuState::MAIN_MENU;
 
@@ -52,8 +56,17 @@ namespace Menu  {
     };
 
     void handleStatus(DisplayTFT::Display *display){
-        display->drawStatus();
-        showStatus(display);
+        if (status_tick < 32) {
+            status_tick++;
+        } else {
+            status_tick = 0;
+            status_redraw = true;
+        }
+        if (status_redraw) {
+            display->drawStatus();
+            showStatus(display);
+            status_redraw = false;
+        }
     }
 
     void showMainMenu(DisplayTFT::Display *display, RotaryEncoder::encoderState state) {
@@ -179,6 +192,8 @@ namespace Menu  {
                 break;
         }
         uint8_t osciXPos = lfoXPos + 20;
+        display->cleanStatusArea(osciXPos, statusYPos + 8, 30, 8);
+        display->drawStatusText(osciXPos, statusYPos + 8, osci_freq);
         display->drawStatusText(osciXPos, statusYPos, "Osci:");
         osciXPos += 31;
         switch (osci_waveform) {
@@ -197,6 +212,5 @@ namespace Menu  {
             default:
                 break;
         }
-
     }
 }

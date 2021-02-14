@@ -29,11 +29,16 @@ namespace Menu {
     extern uint16_t lfo_waveform_selection;
     extern uint8_t lfo_waveform;
     extern boolean lfo_waveform_changed;
+    extern uint16_t lfo_freq;
 
     extern const char osci_waveform_title[];
     extern uint16_t osci_waveform_selection;
     extern uint8_t osci_waveform;
     extern boolean osci_waveform_changed;
+    extern uint16_t osci_freq;
+
+    extern uint8_t status_tick;
+    extern boolean status_redraw;
 
     enum Waveform {
         SINE,

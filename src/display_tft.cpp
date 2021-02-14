@@ -3,6 +3,7 @@
 namespace DisplayTFT {
 
     ST7735_t3 tft = ST7735_t3(SPI_CS1, SPI_DC, SPI_DOUT, SPI_SCK, SPI_RST);
+    //ST7735_t3 tft = ST7735_t3(SPI_CS1, SPI_DC,  SPI_RST);
 
     void Display::drawTextBox(uint16_t x, uint16_t y, uint16_t width, const char* text, boolean inverted) {
         uint16_t boxColor = boxBackgroundColor; // 50% Gra
@@ -17,7 +18,7 @@ namespace DisplayTFT {
     }
 
     void Display::drawTitle(const char* title) {
-        //tft.fillScreen(ST7735_BLACK);
+        tft.fillScreen(ST7735_BLACK);;
         newStatus = true;
         titleHeight = tft.getTextSizeX() * 8 + 2;
         drawTextBox(0, 0, displayWidth, title, true);
@@ -66,6 +67,7 @@ namespace DisplayTFT {
         setRefresh();
         if (userDone) {
             drawTitle(title);
+            tft.fillRect(0, titleHeight + 1, displayWidth, 50, ST7735_BLACK);
             tft.setCursor(displayWidth >> 1, 2 * titleHeight + 4, true);
             tft.print(pre);
             selected = *value;
@@ -194,7 +196,7 @@ namespace DisplayTFT {
 
     void Display::drawStatus() {
         if (newStatus) {
-            tft.fillRect(0, displayHeight - titleHeight - 1, displayWidth, titleHeight + 1, boxBackgroundColor);
+            tft.fillRect(0, displayHeight - 2 * titleHeight - 1, displayWidth, 2 * titleHeight + 1, boxBackgroundColor);
             newStatus = false;
             setRefreshStatus();
         }

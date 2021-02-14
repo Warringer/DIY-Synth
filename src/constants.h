@@ -16,7 +16,12 @@
 #define SPI_DC           8
 #define TFT_LED          6
 
-#define FREQ_KNOB        A1
+#define F_POT           A1
+//#define POT             A2
+//#define POT             A3
+//#define POT             A4
+//#define POT             A5
+//#define POT             A6
 
 // Frequencies
 #define OSCI_MAX        2000
