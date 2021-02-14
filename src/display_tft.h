@@ -323,7 +323,23 @@ namespace DisplayTFT {
              * @param text  integer to be displayed
              */
             void drawStatusText(uint8_t x, uint8_t y, int text) {
-                tft.drawNumber(text, x, y);
+                tft.setCursor(x, y);
+                tft.print(text);
+            }
+
+            /**
+             * @brief   draws a value with a unit in the Status Area at x, y position
+             * 
+             * @param x     x position
+             * @param y     y position
+             * @param value value
+             * @param unit  unit
+             */
+            void drawStatusValue(uint8_t x, uint8_t y, int value, char *unit) {
+                tft.fillRect(x, y, 40, 8, boxBackgroundColor);
+                tft.setCursor(x, y);
+                tft.print(value);
+                tft.print(unit);
             }
 
             /**
