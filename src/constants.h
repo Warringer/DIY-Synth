@@ -18,8 +18,8 @@
 #define TFT_LED          6
 
 #define F_POT           A1
-//#define POT             A2
-//#define POT             A3
+#define ATTACK_POT      A2
+#define DECAY_POT       A3
 //#define POT             A4
 //#define POT             A5
 //#define POT             A6
@@ -27,6 +27,12 @@
 // Frequencies
 #define OSCI_MAX        2000
 #define OSCI_MIN        200
+
+// ADSR
+#define ATTACK_MIN      5
+#define ATTACK_MAX      500
+#define RELEASE_MIN       5
+#define RELEASE_MAX       500
 
 // Menu
 #define MENU_ITEM_LENGTH 16

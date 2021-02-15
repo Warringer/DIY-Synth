@@ -43,22 +43,12 @@ void setup() {
   Synth::setupSynth();
 }
 
-void handleInputs() {
-  Synth::handleOsciFrequency();
-}
-
-void handleAudio() {
-  Synth::handleOsciWaveform();
-}
-
 void updateControl() {
   encoder.update();
   RotaryEncoder::encoderState state = encoder.getStatus();;
   Menu::handleMenu(&display, state);
   Menu::handleStatus(&display);
   encoder.resetStatus();
-  handleAudio();
-  handleInputs();
   Synth::updateControl();
 }
 

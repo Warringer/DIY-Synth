@@ -27,10 +27,16 @@ namespace Synth {
 
     // Smooth analog Inputs
     extern RollingAverage <int, 16> kAverageFreq;
+    extern RollingAverage <int, 16> kAverageAttack;
+    extern RollingAverage <int, 16> kAverageRelease;
 
     extern IntMap kMapFreq;
+    extern IntMap kMapAttack;
+    extern IntMap kMapRelease;
 
     extern int kFreq;
+    extern int kAttack;
+    extern int kRelease;
 
     extern boolean gate_button;
     extern boolean gate_button_pressed;
@@ -39,6 +45,7 @@ namespace Synth {
 
     void handleOsciWaveform();
     void handleOsciFrequency();
+    void handleADSR();
 
     void updateControl();
     int updateAudio();
